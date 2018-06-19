@@ -3,31 +3,44 @@ import Friend from 'components/friend/Friend';
 
 const VK = window.VK
 export default class FriendList extends React.Component {
+
+    state = {
+        friends: ''
+    }
     
     componentWillMount(){
 
         (async () => {
             await this.auth()
             const friends = await this.getUsers({ fields: 'photo_100', count: 20 });
-            this.friendsList(friends)
+
+            this.setState({
+                friends: friends
+            })
         })();
         
-    }
+    }    
 
     render () {
 
         return (
-            <div>
-                {/* <p>{ this.friendsList }</p> */}
-                <Friend />
+            <div>              
+                <Friend friends = {this.renderItems()}/>  
             </div>
             
         )
     }
 
-    friendsList(friends) {
-        console.log(friends.items)
-        return friends.items
+    renderItems = () => {
+
+        if(this.state.friends){
+            this.state.friends.items.map(item=>{
+                console.log(item)
+                return item
+            })
+            
+        }
+        
     }
 
     auth(){
