@@ -1,7 +1,8 @@
 import React from 'react';
 
 function Friend(props){
-    const friends = props.friends.friends;
+       
+    const friends = props.friends;
 
     return (
         <div>

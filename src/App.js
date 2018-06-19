@@ -8,95 +8,102 @@ import 'css/style.css';
 const VK = window.VK
 class App extends Component {
 
-  state = {
-    friends: null
-  }
+	state = {
+		friends: {
+			leftColumn: null,
+			rightColumn: null
+		}
+	}
 
-  componentDidMount() {
+	componentDidMount() {
 
-    (async () => {
-      await this.auth()
-      const friends = await this.getUsers({ fields: 'photo_100', count: 20 });
+		(async () => {
+			await this.auth()
+			const friendsArr = await this.getUsers({ fields: 'photo_100', count: 20 });
+			
+			let friends = { ...this.state.friends }			
+			friends.leftColumn = friendsArr.items
+			this.setState({ friends })		
+		})();
+	}  
 
-      this.setState({
-        friends: friends.items
-      })
-    })();
-  }  
+	render() {
 
-  render() {
+		return (
+			<div className="container-wrapper">
+				<div className="filter-header flex flex_jc-sb flex_a-c p">
+					<p className="filter-header__title">Выберите друзей</p>
+					<button className="filter-header__close button-reset"></button>
+				</div>
+				<Filters onChange={this.handlerFilterChange}/>
+				{this.state.friends.leftColumn &&
+				<Friends friends={this.state.friends} />}
+				<Button />
+			</div>
+		);    
+	}
 
-    return (
-      <div className="container-wrapper">
-        <div className="filter-header flex flex_jc-sb flex_a-c p">
-          <p className="filter-header__title">Выберите друзей</p>
-          <button className="filter-header__close button-reset"></button>
-        </div>
-        <Filters onChange={this.handlerFilterChange}/>
-        {this.state.friends &&
-          <Friends friends={this.state.friends} />}
-        <Button />
-    </div>
-    );    
-  }
+	handlerFilterChange = ev => {
 
-  handlerFilterChange = ev => {
+		if (ev.target.value) {
+			let state = this.state.friends.leftColumn.map(item => {
+				if (isMatch(`${item.first_name} ${item.last_name}`, ev.target.value)) {
+					item.className = ''
+					return item
+				} else {
+					item.className = 'none'
+					return item
+				}
+			});  
 
-    if (ev.target.value) {
-		var state = this.state.friends.map(item => {
-			if (isMatch(`${item.first_name} ${item.last_name}`, ev.target.value)) {
-				item.className = 'active'
-				return item
+			this.setState({
+				friends: state
+			})
+		} else {
+			let state = this.state.friends.leftColumn.map(item => {
+					item.className = ''
+					return item
+			}); 
+
+			this.setState({
+				friends: state
+			})
+		}
+	}
+
+	auth() {
+		return new Promise((resolve, reject) => {
+
+		VK.init({
+			apiId: 6487256
+		});
+		VK.Auth.login(data => {
+			if (data.session) {
+			resolve();
 			} else {
-				item.className = 'none'
-				return item
+			reject(new Error('Не шмогла'));
 			}
-		});  
-    } else {
-		var state = this.state.friends.map(item => {
-				item.className = ''
-				return item
-		}); 
-    }
-    
-    this.setState({
-      friends: state
-    })
-  }
+		}, 2);
+		});
+	}
 
-  auth() {
-    return new Promise((resolve, reject) => {
+	callAPI(method, params) {
+		params.v = '5.76';
 
-      VK.init({
-        apiId: 6487256
-      });
-      VK.Auth.login(data => {
-        if (data.session) {
-          resolve();
-        } else {
-          reject(new Error('Не шмогла'));
-        }
-      }, 2);
-    });
-  }
+		return new Promise((resolve, reject) => {
+			VK.api(method, params, (data) => {
+			if (data.error) {
+				reject(data.error);
+			} else {
+				resolve(data.response);
+			}
+			});
+		});
+	}
 
-  callAPI(method, params) {
-    params.v = '5.76';
-
-    return new Promise((resolve, reject) => {
-      VK.api(method, params, (data) => {
-        if (data.error) {
-          reject(data.error);
-        } else {
-          resolve(data.response);
-        }
-      });
-    });
-  }
-
-  getUsers(params) {
-    return this.callAPI('friends.get', params)
-  }
+	getUsers(params) {
+		return this.callAPI('friends.get', params)
+	}
 }
 
 export default App;
