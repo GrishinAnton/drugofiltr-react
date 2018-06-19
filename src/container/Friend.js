@@ -16,7 +16,7 @@ function Friend(props){
                             <p>{item.first_name} {item.last_name}</p>
                         </div>
                         <div className="friends-item__button flex">
-                            <button className="button button-item js-button"></button>
+                            <button className="button button-item js-button" onClick={props.buttonClick}></button>
                         </div>
                     </div>
                 )}

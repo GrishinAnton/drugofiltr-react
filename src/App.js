@@ -37,7 +37,10 @@ class App extends Component {
 				</div>
 				<Filters onChange={this.handlerFilterChange}/>
 				{this.state.friends.leftColumn &&
-				<Friends friends={this.state.friends} />}
+					<Friends 
+						friends={this.state.friends}
+						buttonClick={this.handlerOnButtonClick}
+				/>}
 				<Button />
 			</div>
 		);    
@@ -56,19 +59,23 @@ class App extends Component {
 				}
 			});  
 
-			this.setState({
-				friends: state
-			})
+			let friends = { ...this.state.friends }			
+			friends.leftColumn = state
+			this.setState({ friends })	
 		} else {
 			let state = this.state.friends.leftColumn.map(item => {
 					item.className = ''
 					return item
 			}); 
 
-			this.setState({
-				friends: state
-			})
+			let friends = { ...this.state.friends }			
+			friends.leftColumn = state
+			this.setState({ friends })	
 		}
+	}
+
+	handlerOnButtonClick = ev => {
+		console.log(ev.nativeEvent.srcElement.parentElement.parentElement.dataset.id);		
 	}
 
 	auth() {
