@@ -19,7 +19,7 @@ class App extends Component {
       const friends = await this.getUsers({ fields: 'photo_100', count: 20 });
 
       this.setState({
-        friends: friends
+        friends: friends.items
       })
     })();
   }  
@@ -41,14 +41,27 @@ class App extends Component {
   }
 
   handlerFilterChange = ev => {
+
+    if (ev.target.value) {
+		var state = this.state.friends.map(item => {
+			if (isMatch(`${item.first_name} ${item.last_name}`, ev.target.value)) {
+				item.className = 'active'
+				return item
+			} else {
+				item.className = 'none'
+				return item
+			}
+		});  
+    } else {
+		var state = this.state.friends.map(item => {
+				item.className = ''
+				return item
+		}); 
+    }
     
-    this.state.friends.items.forEach(item=>{
-      if (isMatch(`${item.first_name} ${item.last_name}`, ev.target.value)) {
-        item.className = 'active'
-      }
+    this.setState({
+      friends: state
     })
-    console.log(this.state.friends.items);
-    
   }
 
   auth() {
