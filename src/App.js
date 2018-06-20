@@ -12,6 +12,10 @@ class App extends Component {
 		friends: {
 			leftColumn: [],
 			rightColumn: []
+		},
+		filters: {
+			left: '',
+			right: ''
 		}
 	}
 
@@ -35,8 +39,8 @@ class App extends Component {
 					<p className="filter-header__title">Выберите друзей</p>
 					<button className="filter-header__close button-reset"></button>
 				</div>
-				<Filters onChange={this.handlerFilterChange}/>
-				{this.state.friends.leftColumn &&
+				<Filters value={this.state.filters} onChange={this.handlerFilterChange}/>
+				{(this.state.friends.leftColumn || this.state.friends.rightColumn) &&
 					<Friends 
 						friends={this.state.friends}
 						buttonClick={this.handlerOnButtonClick}
@@ -48,15 +52,34 @@ class App extends Component {
 
 	handlerFilterChange = ev => {
 
-		console.log(ev.nativeEvent.srcElement.classList.contains('input-friends-vk'));
+		// let filters = { ...this.state.filters }
+		// filters[ev.target.name] = ev.target.value
+		// this.setState({ filters })	
+
+		// this.setState((prevState, props) => ({
+		// 	counter: prevState.counter + props.increment
+		// }));
+
+		var filters = { ...this.state.filters }
+		var name = [ev.target.name]
+		var column = filters[name]
+		var value = ev.target.value
+		// filters[ev.target.name] = ev.target.value
+		this.setState((column, value) => ({ 
+			
+		}))
+
+		console.log(this.state.filters);
 		
+		// this.filterSort()
+	}
 
-		var zone = ev.nativeEvent.srcElement.classList.contains('input-friends-vk');
-		var side = zone ? this.state.friends.leftColumn : this.state.friends.rightColumn;
+	filterSort = () => {		
 
-		if (ev.target.value) {
-			let state = side.map(item => {
-				if (isMatch(`${item.first_name} ${item.last_name}`, ev.target.value)) {
+		if (this.state.filters.left || this.state.filters.right) {
+
+			let stateLeft = this.state.friends.leftColumn.map(item => {
+				if (isMatch(`${item.first_name} ${item.last_name}`, this.state.filters.left)) {
 					item.className = ''
 					return item
 				} else {
@@ -65,17 +88,39 @@ class App extends Component {
 				}
 			});
 
-			side = state
-			this.setState({ side })	
-		} else {
-			let state = side.map(item => {
+			var sideLeft = stateLeft
+			this.setState({ sideLeft })
+
+			let stateRight = this.state.friends.rightColumn.map(item => {
+				if (isMatch(`${item.first_name} ${item.last_name}`, this.state.filters.right)) {
 					item.className = ''
 					return item
+				} else {
+					item.className = 'none'
+					return item
+				}
 			});
-	
-			side = state
-			this.setState({ side })	
+
+			var sideRight = stateRight
+			this.setState({ sideRight })
+		} else {
+			let stateLeft = this.state.friends.leftColumn.map(item => {
+				item.className = ''
+				return item
+			});
+
+			var sideLeft = stateLeft
+			this.setState({ sideLeft })
+
+			let stateRight = this.state.friends.rightColumn.map(item => {
+				item.className = ''
+				return item
+			});
+
+			var sideRight = stateRight
+			this.setState({ sideRight })
 		}
+
 	}
 
 	handlerOnButtonClick = ev => {
