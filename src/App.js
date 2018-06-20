@@ -10,8 +10,8 @@ class App extends Component {
 
 	state = {
 		friends: {
-			leftColumn: null,
-			rightColumn: null
+			leftColumn: [],
+			rightColumn: []
 		}
 	}
 
@@ -75,7 +75,23 @@ class App extends Component {
 	}
 
 	handlerOnButtonClick = ev => {
-		console.log(ev.nativeEvent.srcElement.parentElement.parentElement.dataset.id);		
+
+		var id = ev.nativeEvent.srcElement.parentElement.parentElement.dataset.id
+		var column = ev.nativeEvent.srcElement.parentElement.parentElement.parentElement.parentElement.parentElement.className
+		
+		var side = column === 'left-column' ? this.state.friends.leftColumn : this.state.friends.rightColumn;
+		var siblingSide = column === 'left-column' ? this.state.friends.rightColumn : this.state.friends.leftColumn;
+
+		for(let i in side ){
+			if( side[i].id === +id){
+				let friends = { ...this.state.friends }
+
+				siblingSide.push(side[i])
+				this.setState({ friends })
+				side.splice(i, 1);				
+			}
+			
+		}
 	}
 
 	auth() {

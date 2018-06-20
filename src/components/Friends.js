@@ -21,7 +21,9 @@ export default class Friends extends React.Component {
                     <p className="filter-body__title">Друзья в списке</p>
                     <div className="friends-wrapper">
                         {this.props.friends.rightColumn &&
-                            <Friend friends={this.props.friends.rightColumn} />
+                            <Friend 
+                                friends={this.props.friends.rightColumn}
+                                buttonClick={this.props.buttonClick} />
                         }                        
                     </div>
                 </div>
