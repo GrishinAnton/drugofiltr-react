@@ -48,8 +48,14 @@ class App extends Component {
 
 	handlerFilterChange = ev => {
 
+		console.log(ev.nativeEvent.srcElement.classList.contains('input-friends-vk'));
+		
+
+		var zone = ev.nativeEvent.srcElement.classList.contains('input-friends-vk');
+		var side = zone ? this.state.friends.leftColumn : this.state.friends.rightColumn;
+
 		if (ev.target.value) {
-			let state = this.state.friends.leftColumn.map(item => {
+			let state = side.map(item => {
 				if (isMatch(`${item.first_name} ${item.last_name}`, ev.target.value)) {
 					item.className = ''
 					return item
@@ -57,20 +63,18 @@ class App extends Component {
 					item.className = 'none'
 					return item
 				}
-			});  
+			});
 
-			let friends = { ...this.state.friends }			
-			friends.leftColumn = state
-			this.setState({ friends })	
+			side = state
+			this.setState({ side })	
 		} else {
-			let state = this.state.friends.leftColumn.map(item => {
+			let state = side.map(item => {
 					item.className = ''
 					return item
-			}); 
-
-			let friends = { ...this.state.friends }			
-			friends.leftColumn = state
-			this.setState({ friends })	
+			});
+	
+			side = state
+			this.setState({ side })	
 		}
 	}
 
