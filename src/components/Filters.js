@@ -1,18 +1,18 @@
 import React from 'react';
 
-function Filters ({onChange, value}) {   
+function Filters({ onChange, leftFilter, rightFilter}) {     
     
     return (
         <div className="filer-search flex flex_jc-sb flex_a-c p">
             <input className="input_img input-friends-vk" type="text" placeholder="Начните вводить имя друга" 
                 onChange={onChange}
-                value={value.left}
-                name='left'
+                value={leftFilter}
+                name='leftFilter'
             />
             <input className="input-friends-save" type="text" placeholder="Название" 
                 onChange={onChange}
-                value={value.right}
-                name='right'
+                value={rightFilter}
+                name='rightFilter'
             />
         </div>
     )

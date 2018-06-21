@@ -13,10 +13,23 @@ class App extends Component {
 			leftColumn: [],
 			rightColumn: []
 		},
-		filters: {
-			left: '',
-			right: ''
-		}
+		leftFilter: '',
+		rightFilter: ''
+	}
+
+	// componentWillReceiveProps(){
+	// 	console.log('willReceive');
+	// }
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		console.log(snapshot);
+	}
+	getSnapshotBeforeUpdate(prevProps, prevState) {
+		console.log(prevProps, 'getSnapshot');
+		console.log(prevState, 'getSnapshot2');
+		
+		let a = prevState.filters
+		return a
 	}
 
 	componentDidMount() {
@@ -39,7 +52,7 @@ class App extends Component {
 					<p className="filter-header__title">Выберите друзей</p>
 					<button className="filter-header__close button-reset"></button>
 				</div>
-				<Filters value={this.state.filters} onChange={this.handlerFilterChange}/>
+				<Filters value={this.state} onChange={this.handlerFilterChange}/>
 				{(this.state.friends.leftColumn || this.state.friends.rightColumn) &&
 					<Friends 
 						friends={this.state.friends}
@@ -52,24 +65,17 @@ class App extends Component {
 
 	handlerFilterChange = ev => {
 
-		// let filters = { ...this.state.filters }
-		// filters[ev.target.name] = ev.target.value
-		// this.setState({ filters })	
+		var side = ev.target.name		
+		
+		// let side = this.state[ev.target.name]
+		// console.log(this.state[ev.target.name], 'side');
+		// console.log(ev.target.value, 'sideValue');
+		
+		side = ev.target.value
+		this.setState({ side })	
+		console.log(this.state);
+		
 
-		// this.setState((prevState, props) => ({
-		// 	counter: prevState.counter + props.increment
-		// }));
-
-		var filters = { ...this.state.filters }
-		var name = [ev.target.name]
-		var column = filters[name]
-		var value = ev.target.value
-		// filters[ev.target.name] = ev.target.value
-		this.setState((column, value) => ({ 
-			
-		}))
-
-		console.log(this.state.filters);
 		
 		// this.filterSort()
 	}
