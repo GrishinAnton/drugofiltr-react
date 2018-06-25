@@ -10,7 +10,7 @@ export default class Friends extends React.Component {
                 <div className="left-column">
                     <p className="filter-body__title">Ваши друзья</p>
                     <div className="friends-wrapper"
-                        onDrop={(e) => this.props.drop(e, 'left')}
+                        onDrop={(e) => this.props.drop(e, 'leftColumn')}
                         onDragOver={e => e.preventDefault()}>
                         {this.props.friends.leftColumn &&
                             <Friend 
@@ -23,7 +23,7 @@ export default class Friends extends React.Component {
                 <div className="right-column">
                     <p className="filter-body__title">Друзья в списке</p>
                     <div className="friends-wrapper"
-                        onDrop={(e) => this.props.drop(e, 'right')}
+                        onDrop={(e) => this.props.drop(e, 'rightColumn')}
                         onDragOver={e => e.preventDefault()}>
                         {this.props.friends.rightColumn &&
                             <Friend 

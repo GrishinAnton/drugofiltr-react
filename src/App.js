@@ -80,12 +80,26 @@ class App extends Component {
 	dragStartHandler = (e, id) => {
 		console.dir(e);
 		console.log('dragStart');
+		e.dataTransfer.setData("id", id);
 	}
 	
-	onDropHandler = e => {
+	onDropHandler = (e, column) => {
+		
 		e.preventDefault()
-		console.log(e);
-		console.log('drop');				
+		var id = e.dataTransfer.getData("id");
+		var siblingSide = column === 'leftColumn' ? this.state.friends.leftColumn : this.state.friends.rightColumn;
+		var side = column === 'leftColumn' ? this.state.friends.rightColumn : this.state.friends.leftColumn;
+
+		for (let i in side) {
+			if (side[i].id === +id) {
+				let friends = { ...this.state.friends }
+
+				siblingSide.push(side[i])
+				this.setState({ friends })
+				side.splice(i, 1);
+			}
+
+		}				
 	}
 
 	handlerFilterChange = e => {
