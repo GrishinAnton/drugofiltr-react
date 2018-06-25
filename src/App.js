@@ -13,24 +13,29 @@ class App extends Component {
 			leftColumn: [],
 			rightColumn: []
 		},
-
 		leftFilter: '',
-		rightFilter: '',
+		rightFilter: ''
 	}
 
 	// componentWillReceiveProps(){
 	// 	console.log('willReceive');
 	// }
 
-	// componentDidUpdate(prevProps, prevState, snapshot) {
-	// 	console.log(snapshot);
-	// }
+	componentDidUpdate(prevProps, prevState) {
+		
+		if (this.state.leftFilter !== prevState.leftFilter) {		
+			this.filterSort();	
+		}
+		if (this.state.rightFilter !== prevState.rightFilter) {
+			this.filterSort();
+		}
+			
+	}
+
 	// getSnapshotBeforeUpdate(prevProps, prevState) {
 	// 	console.log(prevProps, 'getSnapshot');
 	// 	console.log(prevState, 'getSnapshot2');
-		
-	// 	let a = prevState.filters
-	// 	return a
+
 	// }
 
 	componentDidMount() {
@@ -71,17 +76,18 @@ class App extends Component {
 	handlerFilterChange = e => {
 		this.setState({
 			[e.target.name]: e.target.value
-		})
+		})	
 		
-		// this.filterSort()
 	}
 
-	filterSort = () => {		
+	filterSort = () => {			
 
-		if (this.state.filters.left || this.state.filters.right) {
+		if (this.state.leftFilter) {
 
-			let stateLeft = this.state.friends.leftColumn.map(item => {
-				if (isMatch(`${item.first_name} ${item.last_name}`, this.state.filters.left)) {
+			var left = this.state.friends.leftColumn
+
+			left.map(item => {
+				if (isMatch(`${item.first_name} ${item.last_name}`, this.state.leftFilter)) {
 					item.className = ''
 					return item
 				} else {
@@ -90,39 +96,47 @@ class App extends Component {
 				}
 			});
 
-			var sideLeft = stateLeft
-			this.setState({ sideLeft })
+			this.setState({ [this.state.friends.leftColumn]: left})
 
-			let stateRight = this.state.friends.rightColumn.map(item => {
-				if (isMatch(`${item.first_name} ${item.last_name}`, this.state.filters.right)) {
-					item.className = ''
-					return item
-				} else {
-					item.className = 'none'
-					return item
-				}
-			});
+		}
+		else {
 
-			var sideRight = stateRight
-			this.setState({ sideRight })
-		} else {
-			let stateLeft = this.state.friends.leftColumn.map(item => {
+			var left = this.state.friends.leftColumn
+			
+			left.map(item => {
 				item.className = ''
 				return item
 			});
 
-			var sideLeft = stateLeft
-			this.setState({ sideLeft })
-
-			let stateRight = this.state.friends.rightColumn.map(item => {
-				item.className = ''
-				return item
-			});
-
-			var sideRight = stateRight
-			this.setState({ sideRight })
+			this.setState({ [this.state.friends.leftColumn]: left })
 		}
 
+		if (this.state.rightFilter) {
+
+			var right = this.state.friends.rightColumn
+
+			this.state.friends.rightColumn.map(item => {
+				if (isMatch(`${item.first_name} ${item.last_name}`, this.state.rightFilter)) {
+					item.className = ''
+					return item
+				} else {
+					item.className = 'none'
+					return item
+				}
+			});
+
+			this.setState({ [this.state.friends.rightColumn]: right })
+		}
+		else {
+			var right = this.state.friends.rightColumn
+
+			right.map(item => {
+				item.className = ''
+				return item
+			});
+
+			this.setState({ [this.state.friends.rightColumn]: right })
+		}
 	}
 
 	handlerOnButtonClick = ev => {
