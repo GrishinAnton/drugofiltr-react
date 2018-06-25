@@ -21,13 +21,16 @@ class App extends Component {
 	// 	console.log('willReceive');
 	// }
 
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(prevProps, prevState) {		
 		
-		if (this.state.leftFilter !== prevState.leftFilter) {		
+		if (this.state.leftFilter !== prevState.leftFilter) {				
 			this.filterSort();	
 		}
 		if (this.state.rightFilter !== prevState.rightFilter) {
 			this.filterSort();
+		}
+		if (this.state.friends !== prevState.friends) {		
+			this.filterSort();	
 		}
 			
 	}
@@ -80,14 +83,20 @@ class App extends Component {
 		
 	}
 
-	filterSort = () => {			
+	filterSort = () => {
 
-		if (this.state.leftFilter) {
+		this.filterHandler(this.state.friends.leftColumn, this.state.leftFilter);
+		this.filterHandler(this.state.friends.rightColumn, this.state.rightFilter);
 
-			var left = this.state.friends.leftColumn
+	}
+	filterHandler = (column, filterData) => {
 
-			left.map(item => {
-				if (isMatch(`${item.first_name} ${item.last_name}`, this.state.leftFilter)) {
+		if (filterData) {
+
+			var currentColumn = column
+
+			currentColumn.map(item => {
+				if (isMatch(`${item.first_name} ${item.last_name}`, filterData)) {
 					item.className = ''
 					return item
 				} else {
@@ -96,46 +105,16 @@ class App extends Component {
 				}
 			});
 
-			this.setState({ [this.state.friends.leftColumn]: left})
+			this.setState({ [column]: currentColumn })
+		} else {
+			var currentColumn = column
 
-		}
-		else {
-
-			var left = this.state.friends.leftColumn
-			
-			left.map(item => {
+			currentColumn.map(item => {
 				item.className = ''
 				return item
 			});
 
-			this.setState({ [this.state.friends.leftColumn]: left })
-		}
-
-		if (this.state.rightFilter) {
-
-			var right = this.state.friends.rightColumn
-
-			this.state.friends.rightColumn.map(item => {
-				if (isMatch(`${item.first_name} ${item.last_name}`, this.state.rightFilter)) {
-					item.className = ''
-					return item
-				} else {
-					item.className = 'none'
-					return item
-				}
-			});
-
-			this.setState({ [this.state.friends.rightColumn]: right })
-		}
-		else {
-			var right = this.state.friends.rightColumn
-
-			right.map(item => {
-				item.className = ''
-				return item
-			});
-
-			this.setState({ [this.state.friends.rightColumn]: right })
+			this.setState({ [column]: currentColumn })
 		}
 	}
 
