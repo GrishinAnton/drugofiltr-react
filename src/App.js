@@ -55,7 +55,6 @@ class App extends Component {
 
 	render() {
 
-		console.log(this.state);
 		return (
 			<div className="container-wrapper">
 				<div className="filter-header flex flex_jc-sb flex_a-c p">
@@ -70,10 +69,23 @@ class App extends Component {
 					<Friends 
 						friends={this.state.friends}
 						buttonClick={this.handlerOnButtonClick}
+						drop={this.onDropHandler}
+						dragStart={this.dragStartHandler}
 				/>}
 				<Button />
 			</div>
 		);    
+	}
+
+	dragStartHandler = (e, id) => {
+		console.dir(e);
+		console.log('dragStart');
+	}
+	
+	onDropHandler = e => {
+		e.preventDefault()
+		console.log(e);
+		console.log('drop');				
 	}
 
 	handlerFilterChange = e => {
