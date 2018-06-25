@@ -13,24 +13,25 @@ class App extends Component {
 			leftColumn: [],
 			rightColumn: []
 		},
+
 		leftFilter: '',
-		rightFilter: ''
+		rightFilter: '',
 	}
 
 	// componentWillReceiveProps(){
 	// 	console.log('willReceive');
 	// }
 
-	componentDidUpdate(prevProps, prevState, snapshot) {
-		console.log(snapshot);
-	}
-	getSnapshotBeforeUpdate(prevProps, prevState) {
-		console.log(prevProps, 'getSnapshot');
-		console.log(prevState, 'getSnapshot2');
+	// componentDidUpdate(prevProps, prevState, snapshot) {
+	// 	console.log(snapshot);
+	// }
+	// getSnapshotBeforeUpdate(prevProps, prevState) {
+	// 	console.log(prevProps, 'getSnapshot');
+	// 	console.log(prevState, 'getSnapshot2');
 		
-		let a = prevState.filters
-		return a
-	}
+	// 	let a = prevState.filters
+	// 	return a
+	// }
 
 	componentDidMount() {
 
@@ -46,13 +47,17 @@ class App extends Component {
 
 	render() {
 
+		console.log(this.state);
 		return (
 			<div className="container-wrapper">
 				<div className="filter-header flex flex_jc-sb flex_a-c p">
 					<p className="filter-header__title">Выберите друзей</p>
 					<button className="filter-header__close button-reset"></button>
 				</div>
-				<Filters value={this.state} onChange={this.handlerFilterChange}/>
+				<Filters 
+					leftFilter={this.state.leftFilter} 
+					rightFilter={this.state.rightFilter} 
+					handlerFilterChange={this.handlerFilterChange}/>
 				{(this.state.friends.leftColumn || this.state.friends.rightColumn) &&
 					<Friends 
 						friends={this.state.friends}
@@ -63,19 +68,10 @@ class App extends Component {
 		);    
 	}
 
-	handlerFilterChange = ev => {
-
-		var side = ev.target.name		
-		
-		// let side = this.state[ev.target.name]
-		// console.log(this.state[ev.target.name], 'side');
-		// console.log(ev.target.value, 'sideValue');
-		
-		side = ev.target.value
-		this.setState({ side })	
-		console.log(this.state);
-		
-
+	handlerFilterChange = e => {
+		this.setState({
+			[e.target.name]: e.target.value
+		})
 		
 		// this.filterSort()
 	}
