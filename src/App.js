@@ -78,8 +78,6 @@ class App extends Component {
 	}
 
 	dragStartHandler = (e, id) => {
-		console.dir(e);
-		console.log('dragStart');
 		e.dataTransfer.setData("id", id);
 	}
 	
