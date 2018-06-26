@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Friend({ friends, dragStart, buttonClick}){
+export default function Friend({ friends, dragStart, buttonClick}){
 
     return (
         <div>
@@ -26,5 +26,3 @@ function Friend({ friends, dragStart, buttonClick}){
         </div>            
     )
 }
-
-export default Friend

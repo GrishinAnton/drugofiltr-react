@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Filters({ handlerFilterChange, leftFilter, rightFilter}) {     
+export default function Filters({ handlerFilterChange, leftFilter, rightFilter}) {     
     
     return (
         <form onChange={(e) => handlerFilterChange(e)} className="filer-search flex flex_jc-sb flex_a-c p">
@@ -15,5 +15,3 @@ function Filters({ handlerFilterChange, leftFilter, rightFilter}) {
         </form>
     )
 }
-
-export default Filters

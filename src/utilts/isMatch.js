@@ -1,5 +1,3 @@
-function isMatch (full, chunk) {
+export default function isMatch (full, chunk) {
     return full.toLowerCase().indexOf(chunk.toLowerCase()) !== -1 ? true : false;
 }
-
-export default isMatch
