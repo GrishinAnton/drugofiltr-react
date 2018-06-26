@@ -1,7 +1,4 @@
-import React from 'react';
-import DrugoFiltr from 'containers/DrugoFiltr';
+import React from "react";
+import DrugoFiltr from "containers/DrugoFiltr";
 
-
-export default () => <DrugoFiltr />
-
-
+export default () => <DrugoFiltr />;
