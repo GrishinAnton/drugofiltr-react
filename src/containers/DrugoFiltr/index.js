@@ -28,34 +28,32 @@ export default class DrugoFillter extends React.Component {
     }
   }
 
-  componentDidMount() {
-    (async () => {
-      await vkApi.auth();
-      const friendsArr = await vkApi.getUsers({
-        fields: "photo_100",
-        count: 20
-      });
+  async componentDidMount() {
+    await vkApi.auth();
+    const friendsArr = await vkApi.getUsers({
+      fields: "photo_100",
+      count: 20
+    });
 
-      let friends = { ...this.state.friends };
+    let friends = { ...this.state.friends };
 
-      if (localStorage.getItem("array")) {
-        friends.rightColumn = JSON.parse(localStorage.getItem("array"));
+    if (localStorage.getItem("array")) {
+      friends.rightColumn = JSON.parse(localStorage.getItem("array"));
 
-        for (var i = 0; i < friendsArr.items.length; i++) {
-          for (var j = 0; j < friends.rightColumn.length; j++) {
-            if (friendsArr.items[i].id === friends.rightColumn[j].id) {
-              friendsArr.items.splice(i, 1);
-            }
+      for (var i = 0; i < friendsArr.items.length; i++) {
+        for (var j = 0; j < friends.rightColumn.length; j++) {
+          if (friendsArr.items[i].id === friends.rightColumn[j].id) {
+            friendsArr.items.splice(i, 1);
           }
         }
-
-        friends.leftColumn = friendsArr.items;
-        this.setState({ friends });
-      } else {
-        friends.leftColumn = friendsArr.items;
-        this.setState({ friends });
       }
-    })();
+
+      friends.leftColumn = friendsArr.items;
+      this.setState({ friends });
+    } else {
+      friends.leftColumn = friendsArr.items;
+      this.setState({ friends });
+    }
   }
 
   render() {
