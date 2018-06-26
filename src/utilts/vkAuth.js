@@ -1,4 +1,6 @@
-export default = {
+const VK = window.VK
+
+export default {
     auth() {
         return new Promise((resolve, reject) => {
 
@@ -13,7 +15,7 @@ export default = {
                 }
             }, 2);
         });
-    }
+    },
 
 	callAPI(method, params) {
         params.v = '5.76';
@@ -27,7 +29,7 @@ export default = {
                 }
             });
         });
-    }
+    },
 
 	getUsers(params) {
         return this.callAPI('friends.get', params)

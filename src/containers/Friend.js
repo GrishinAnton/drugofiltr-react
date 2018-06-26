@@ -1,9 +1,6 @@
 import React from 'react';
 
-function Friend(props){
-    
-    const friends = props.friends;
-    const dragStart = props.dragStart;
+function Friend({ friends, dragStart, buttonClick}){
 
     return (
         <div>
@@ -22,7 +19,7 @@ function Friend(props){
                             <p>{item.first_name} {item.last_name}</p>
                         </div>
                         <div className="friends-item__button flex">
-                            <button className="button button-item js-button" onClick={props.buttonClick}></button>
+                            <button className="button button-item js-button" onClick={buttonClick}></button>
                         </div>
                     </div>
                 )}

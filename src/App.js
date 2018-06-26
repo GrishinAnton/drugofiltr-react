@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Button from 'container/Button';
+import Button from 'components/common/Button';
 import Friends from 'components/Friends';
 import Filters from 'components/Filters';
-import isMatch from 'helpers/isMatch'
+import isMatch from 'utilts/isMatch';
+import vkApi from 'utilts/vkAuth'
 import 'css/style.css';
 
-const VK = window.VK
 class App extends Component {
 
 	state = {
@@ -16,10 +16,6 @@ class App extends Component {
 		leftFilter: '',
 		rightFilter: ''
 	}
-
-	// componentWillReceiveProps(){
-	// 	console.log('willReceive');
-	// }
 
 	componentDidUpdate(prevProps, prevState) {		
 		
@@ -35,17 +31,12 @@ class App extends Component {
 			
 	}
 
-	// getSnapshotBeforeUpdate(prevProps, prevState) {
-	// 	console.log(prevProps, 'getSnapshot');
-	// 	console.log(prevState, 'getSnapshot2');
-
-	// }
 
 	componentDidMount() {
 
 		(async () => {
-			await this.auth()
-			const friendsArr = await this.getUsers({ fields: 'photo_100', count: 20 });
+			await vkApi.auth()
+			const friendsArr = await vkApi.getUsers({ fields: 'photo_100', count: 20 });
 			
 			let friends = { ...this.state.friends }			
 			friends.leftColumn = friendsArr.items
@@ -160,40 +151,6 @@ class App extends Component {
 			}
 			
 		}
-	}
-
-	auth() {
-		return new Promise((resolve, reject) => {
-
-		VK.init({
-			apiId: 6487256
-		});
-		VK.Auth.login(data => {
-			if (data.session) {
-			resolve();
-			} else {
-			reject(new Error('Не шмогла'));
-			}
-		}, 2);
-		});
-	}
-
-	callAPI(method, params) {
-		params.v = '5.76';
-
-		return new Promise((resolve, reject) => {
-			VK.api(method, params, (data) => {
-			if (data.error) {
-				reject(data.error);
-			} else {
-				resolve(data.response);
-			}
-			});
-		});
-	}
-
-	getUsers(params) {
-		return this.callAPI('friends.get', params)
 	}
 }
 

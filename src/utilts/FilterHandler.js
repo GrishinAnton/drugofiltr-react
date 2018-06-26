@@ -1,10 +1,8 @@
-import isMatch from 'helpers/isMatch';
+import isMatch from 'utilts/isMatch';
 import React, { Component } from 'react';
 
 
-export default class filterHandler extends React.Component {
-    console.log(this.props, '___');
-    
+export default class filterHandler extends React.Component {  
     if (filterData) {
 
         var currentColumn = column
