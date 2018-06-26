@@ -1,10 +1,11 @@
 import React from 'react';
-import DrugoFiltr from 'containers/DrugoFillter'
+import Pages from './containers'
 import 'css/style.css';
+
 
 export default function App() {
 
 	return (
-		<DrugoFiltr/>
+		<Pages />
 	)
 }

@@ -1,11 +1,12 @@
 import React from 'react';
 import Button from 'components/common/Button';
 import Friends from 'components/Friends';
-import Filters from 'components/Filters';
+import Filters from 'components/filters/Filters';
 import isMatch from 'utilts/isMatch';
-import vkApi from 'utilts/vkAuth'
+import vkApi from 'utilts/vkAuth';
+import Header from 'components/layouts/Header'
 
-export default class App extends React.Component {
+export default class DrugoFillter extends React.Component {
 
     state = {
         friends: {
@@ -47,10 +48,7 @@ export default class App extends React.Component {
 
         return (
             <div className="container-wrapper">
-                <div className="filter-header flex flex_jc-sb flex_a-c p">
-                    <p className="filter-header__title">Выберите друзей</p>
-                    <button className="filter-header__close button-reset"></button>
-                </div>
+                <Header />
                 <Filters
                     leftFilter={this.state.leftFilter}
                     rightFilter={this.state.rightFilter}

@@ -1,5 +1,5 @@
 import React from 'react';
-import Friend from 'containers/Friend';
+import Friend from 'components/friend/Friend';
 
 export default function Friends (props) {
        
